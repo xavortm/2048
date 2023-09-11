@@ -1,0 +1,59 @@
+:root {
+  font-family: 'Work Sans', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+
+  /* Colors: */
+  --color-base: #FAFAF9;
+  --color-base-highlight: #FFFFFF;
+
+  --color-text: #44403C;
+  --color-text-muted: #78716C;
+
+  --color-primary: #F97316;
+
+  /* Score colors: */
+  --color-score-2: #FDBA74;
+  --color-score-4: #FB923C;
+  --color-score-8: #F97316;
+  --color-score-16: #fca5a5;
+  --color-score-32: #f87171;
+  --color-score-64: #ef4444;
+  --color-score-128: #e9d5ff;
+  --color-score-256: #d8b4fe;
+  --color-score-512: #c084fc;
+  --color-score-1024: #f9a8d4;
+  --color-score-2048: #f472b6;
+
+  /* And now inverts that have at least 4.5:1 contrast ratio */
+  --color-score-2-text: color-mix(in oklab, var(--color-score-2) 25%, black);
+  --color-score-4-text: color-mix(in oklab, var(--color-score-4) 25%, black);
+  --color-score-8-text: color-mix(in oklab, var(--color-score-8) 25%, black);
+  --color-score-16-text: color-mix(in oklab, var(--color-score-16) 25%, black);
+  --color-score-32-text: color-mix(in oklab, var(--color-score-32) 25%, black);
+  --color-score-64-text: color-mix(in oklab, var(--color-score-64) 25%, black);
+  --color-score-128-text: color-mix(in oklab, var(--color-score-128) 25%, black);
+  --color-score-256-text: color-mix(in oklab, var(--color-score-256) 25%, black);
+  --color-score-512-text: color-mix(in oklab, var(--color-score-512) 25%, black);
+  --color-score-1024-text: color-mix(in oklab, var(--color-score-1024) 25%, black);
+  --color-score-2048-text: color-mix(in oklab, var(--color-score-2048) 25%, black);
+
+  --color-stroke: #A3A3A3;
+}
+
+a {
+  font-weight: 500;
+  text-decoration: inherit;
+}
+
+body {
+  margin: 0;
+  color: var(--color-text);
+  background-color: var(--color-base);
+}
