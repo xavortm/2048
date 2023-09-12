@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import { shiftAndSumMatrix } from '../../utils/matrix';
+import { noZerosInMatrix, shiftAndSumMatrix, generateMatrix } from '../../utils/matrix';
+import { replaceRandomZero } from '../../utils/array';
+
+const startingBoard = generateMatrix(4);
+const randomRow = Math.floor(Math.random() * startingBoard.length - 1);
+startingBoard[randomRow] = replaceRandomZero(startingBoard[randomRow]);
 
 const keyMap = {
   ArrowUp: 'up',
@@ -21,19 +26,8 @@ const Wrapper = styled.div`
   gap: 0.5rem;
 `;
 
-
-// The board will be a 4x4 grid of squares.
-// The square position not be animated. On user input, the
-// square will move to the new position using a CSS transition.
-
-function Board() {
-  // State of the 4x4 board:
-  const [board, setBoard] = useState([
-    [0, 0, 0, 0],
-    [0, 2, 0, 0],
-    [0, 0, 2, 0],
-    [0, 0, 0, 0],
-  ]);
+function Board({ onUpdateScore, onGameOver }) {
+  const [board, setBoard] = useState(startingBoard);
 
   /**
    * Handles user input for changing the direction of the game.
@@ -49,8 +43,17 @@ function Board() {
       return;
     }
 
+    if (noZerosInMatrix(board)) {
+      // @todo triger game over screen
+      onGameOver();
+      return;
+    }
+
     // Based on the direction, calculate the new board state.
-    setBoard(shiftAndSumMatrix(board, keyMap[key]));
+    const [newBoard, moveSum] = shiftAndSumMatrix(board, keyMap[key]);
+
+    setBoard(newBoard);
+    onUpdateScore(moveSum);
   }
 
   useEffect(() => {

@@ -22,8 +22,7 @@ const Counters = styled.div`
   gap: 0.5rem;
 `;
 
-function Header() {
-  const [score, setScore] = useState(0);
+function Header({ score }) {
 
   return (
     <StyledHeader>

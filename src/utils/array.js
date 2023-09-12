@@ -1,4 +1,4 @@
-import { generateRandomNumber } from './number';
+import { generateRandomNumber } from './random';
 
 /**
  * Swaps two elements in an array.
@@ -52,18 +52,20 @@ export function sortZeros(array) {
  */
 export function sumAdjacentEqualValues(array) {
   const newArray = [];
+  let summed = 0;
 
   let i = 0;
   while (i < array.length) {
     if (array[i] === array[i + 1]) {
-      newArray.push(array[i] + array[i + 1]);
+      summed += array[i] + array[i + 1];
+      newArray.push(summed);
       i += 2;
     } else {
       newArray.push(array[i]);
       i += 1;
     }
   }
-  return newArray;
+  return [newArray, summed];
 }
 
 /**

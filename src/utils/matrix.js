@@ -6,6 +6,22 @@ import {
 } from './array';
 
 /**
+ * Generates a square matrix of a given size, filled with zeros.
+ *
+ * @param {number} size - The size of the matrix to generate.
+ * @returns {Array<Array<number>>} The generated matrix.
+ */
+export function generateMatrix(size) {
+  const matrix = [];
+
+  for (let i = 0; i < size; i++) {
+    matrix.push(new Array(size).fill(0));
+  }
+
+  return matrix;
+}
+
+/**
  * Rotate a matrix 90 degrees clockwise or counter-clockwise
  *
  * @param {array} matrix - Must be square matrix
@@ -39,6 +55,7 @@ export function rotateMatrix(matrix, direction = 'clockwise') {
  */
 export function shiftAndSumMatrix(matrix, direction) {
   let numberWasGenerated = false;
+  let turnScore = 0;
 
   // Make sure the matrix is a square.
   if (matrix.length !== matrix[0].length) {
@@ -60,9 +77,13 @@ export function shiftAndSumMatrix(matrix, direction) {
   }
 
   matrix.forEach((row, rowIndex) => {
+    if (!row.includes(0)) {
+      return;
+    }
+
     matrix[rowIndex] = sortZeros(matrix[rowIndex]);
-    matrix[rowIndex] = sumAdjacentEqualValues(matrix[rowIndex]);
-    matrix[rowIndex] = fillWithZeros(matrix[rowIndex], matrix.length);
+    const [sumArray, score] = sumAdjacentEqualValues(matrix[rowIndex]);
+    matrix[rowIndex] = fillWithZeros(sumArray, matrix.length);
 
     // If the direction is right, reverse the row.
     if (direction === 'right') {
@@ -73,6 +94,8 @@ export function shiftAndSumMatrix(matrix, direction) {
       matrix[rowIndex] = replaceRandomZero(matrix[rowIndex]);
       numberWasGenerated = true;
     }
+
+    turnScore += score;
   });
 
   // After the matrix has been shifted, rotate it back if needed.
@@ -84,8 +107,20 @@ export function shiftAndSumMatrix(matrix, direction) {
     matrix = rotateMatrix(matrix, 'clockwise');
   }
 
-  console.table(matrix);
-
-  return matrix;
+  return [matrix, turnScore];
 };
 
+/**
+ * Returns true if there are no zeros in the matrix, false otherwise.
+ *
+ * @param {Array<Array<number>>} matrix - The matrix to check.
+ * @returns {boolean} True if there are no zeros in the matrix, false otherwise.
+ */
+
+export function noZerosInMatrix(matrix) {
+  if (matrix === undefined) {
+    throw new Error('Matrix is undefined.');
+  }
+
+  return matrix.every(row => !row.includes(0));
+}
