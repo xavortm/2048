@@ -1,3 +1,10 @@
+import {
+  fillWithZeros,
+  replaceRandomZero,
+  sortZeros,
+  sumAdjacentEqualValues,
+} from './array';
+
 /**
  * Rotate a matrix 90 degrees clockwise or counter-clockwise
  *
@@ -5,6 +12,10 @@
  * @param {string} direction - 'clockwise' or 'counter-clockwise'
  */
 export function rotateMatrix(matrix, direction = 'clockwise') {
+  if (matrix === undefined) {
+    throw new Error('Matrix is undefined.');
+  }
+
   // Make sure the matrix is a square.
   if (matrix.length !== matrix[0].length) {
     throw new Error('Matrix must be square.');
@@ -18,7 +29,6 @@ export function rotateMatrix(matrix, direction = 'clockwise') {
 
 }
 
-
 /**
  * Shifts the matrix in the given direction and sums
  * adjacent equal values.
@@ -28,11 +38,7 @@ export function rotateMatrix(matrix, direction = 'clockwise') {
  * @returns {number[][]} The shifted matrix.
  */
 export function shiftAndSumMatrix(matrix, direction) {
-  if (direction === 'none') {
-    return matrix;
-  }
-
-  const shiftedMatrix = [];
+  let numberWasGenerated = false;
 
   // Make sure the matrix is a square.
   if (matrix.length !== matrix[0].length) {
@@ -45,25 +51,41 @@ export function shiftAndSumMatrix(matrix, direction) {
   }
 
   // If the direction is up or down, rotate the matrix before shifting.
-  if (direction === 'up' || direction === 'down') {
+  if (direction === 'down') {
     matrix = rotateMatrix(matrix, 'clockwise');
   }
 
+  if (direction === 'up') {
+    matrix = rotateMatrix(matrix, 'counter-clockwise');
+  }
+
   matrix.forEach((row, rowIndex) => {
-    row.forEach((column, columnIndex) => {
-      // First, move all the values to the edge.
-      if (column !== 0) {
-        if (direction === 'left' || direction === 'right') {
-          shiftedMatrix[rowIndex].push(column);
-        } else {
-          shiftedMatrix[rowIndex].unshift(column);
-        }
-      }
-    });
+    matrix[rowIndex] = sortZeros(matrix[rowIndex]);
+    matrix[rowIndex] = sumAdjacentEqualValues(matrix[rowIndex]);
+    matrix[rowIndex] = fillWithZeros(matrix[rowIndex], matrix.length);
+
+    // If the direction is right, reverse the row.
+    if (direction === 'right') {
+      matrix[rowIndex] = matrix[rowIndex].reverse();
+    }
+
+    if (!numberWasGenerated && matrix[rowIndex].includes(0)) {
+      matrix[rowIndex] = replaceRandomZero(matrix[rowIndex]);
+      numberWasGenerated = true;
+    }
   });
 
   // After the matrix has been shifted, rotate it back if needed.
-  if (direction === 'up' || direction === 'down') {
+  if (direction === 'down') {
     matrix = rotateMatrix(matrix, 'counter-clockwise');
   }
+
+  if (direction === 'up') {
+    matrix = rotateMatrix(matrix, 'clockwise');
+  }
+
+  console.table(matrix);
+
+  return matrix;
 };
+

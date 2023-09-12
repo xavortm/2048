@@ -1,6 +1,14 @@
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { shiftAndSumMatrix } from '../../utils/matrix';
+
+const keyMap = {
+  ArrowUp: 'up',
+  ArrowDown: 'down',
+  ArrowLeft: 'left',
+  ArrowRight: 'right',
+};
 
 const Wrapper = styled.div`
   border: 1px solid var(--color-stroke);
@@ -19,18 +27,13 @@ const Wrapper = styled.div`
 // square will move to the new position using a CSS transition.
 
 function Board() {
-  const [direction, setDirection] = useState('none'); // The default direction is none.
-
   // State of the 4x4 board:
   const [board, setBoard] = useState([
     [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
+    [0, 2, 0, 0],
+    [0, 0, 2, 0],
     [0, 0, 0, 0],
   ]);
-
-  // Based on the direction, calculate the new board state.
-  const newMatrix = shiftAndSumMatrix(board, direction);
 
   /**
    * Handles user input for changing the direction of the game.
@@ -41,16 +44,22 @@ function Board() {
   const onUserInput = (event) => {
     const { key } = event;
 
-    if (key === 'ArrowUp') {
-      setDirection('up');
-    } else if (key === 'ArrowDown') {
-      setDirection('down');
-    } else if (key === 'ArrowLeft') {
-      setDirection('left');
-    } else if (key === 'ArrowRight') {
-      setDirection('right');
+    // If the key is not an arrow key, ignore it.
+    if (!Object.keys(keyMap).includes(key)) {
+      return;
     }
+
+    // Based on the direction, calculate the new board state.
+    setBoard(shiftAndSumMatrix(board, keyMap[key]));
   }
+
+  useEffect(() => {
+    window.addEventListener('keydown', onUserInput);
+
+    return () => {
+      window.removeEventListener('keydown', onUserInput);
+    }
+  }, [onUserInput]);
 
   return (
     <Wrapper>
