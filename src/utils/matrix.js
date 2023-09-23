@@ -85,14 +85,8 @@ export function shiftAndSumMatrix(matrix, direction) {
     const [sumArray, score] = sumAdjacentEqualValues(matrix[rowIndex]);
     matrix[rowIndex] = fillWithZeros(sumArray, matrix.length);
 
-    // If the direction is right, reverse the row.
     if (direction === 'right') {
-      matrix[rowIndex] = matrix[rowIndex].reverse();
-    }
-
-    if (!numberWasGenerated && matrix[rowIndex].includes(0)) {
-      matrix[rowIndex] = replaceRandomZero(matrix[rowIndex]);
-      numberWasGenerated = true;
+      matrix[rowIndex] = sortZeros(matrix[rowIndex], 'right');
     }
 
     turnScore += score;

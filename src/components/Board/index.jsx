@@ -44,13 +44,12 @@ function Board({ onUpdateScore, onGameOver }) {
     }
 
     if (noZerosInMatrix(board)) {
-      // @todo triger game over screen
       onGameOver();
       return;
     }
 
-    // Based on the direction, calculate the new board state.
-    const [newBoard, moveSum] = shiftAndSumMatrix(board, keyMap[key]);
+    let [newBoard, moveSum] = shiftAndSumMatrix(board, keyMap[key]);
+    newBoard = replaceRandomZero(newBoard); // Prepare next move state.
 
     setBoard(newBoard);
     onUpdateScore(moveSum);
@@ -65,9 +64,7 @@ function Board({ onUpdateScore, onGameOver }) {
   }, [onUserInput]);
 
   return (
-    <Wrapper>
-
-    </Wrapper>
+    <Wrapper />
   )
 }
 

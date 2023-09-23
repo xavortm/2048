@@ -1,4 +1,4 @@
-import { generateRandomNumber } from './random';
+import { generateRandomNumber } from "./random";
 
 /**
  * Swaps two elements in an array.
@@ -33,10 +33,15 @@ export function swapInArray(array, index1, index2) {
  * const sortedArray = sortZeros(array);
  * // sortedArray is [1, 3, 2, 0, 0]
  */
-export function sortZeros(array) {
+export function sortZeros(array, direction = "left") {
   const zeros = array.filter((num) => num === 0);
   const nonZeros = array.filter((num) => num !== 0);
-  return [...nonZeros, ...zeros];
+
+  if (direction === "left") {
+    return [...nonZeros, ...zeros];
+  }
+
+  return [...zeros, ...nonZeros];
 }
 
 /**
@@ -58,7 +63,7 @@ export function sumAdjacentEqualValues(array) {
   while (i < array.length) {
     if (array[i] === array[i + 1]) {
       summed += array[i] + array[i + 1];
-      newArray.push(summed);
+      newArray.push(array[i] + array[i + 1]);
       i += 2;
     } else {
       newArray.push(array[i]);
@@ -98,7 +103,7 @@ export function fillWithZeros(array, length) {
  * @returns {Array} The modified array.
  */
 export function replaceRandomZero(array) {
-  if (!array.includes(0)) {
+  if (array == null || !array.includes(0)) {
     return array;
   }
 
