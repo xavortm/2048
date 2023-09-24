@@ -7,11 +7,6 @@ import { generateRandomPlayingNumber, randomInt } from "./random";
  * @param {number} index1 - The index of the first element to swap.
  * @param {number} index2 - The index of the second element to swap.
  * @returns {Array} The modified array.
- *
- * @example
- * const array = [1, 2, 3, 4];
- * const swappedArray = swapInArray(array, 1, 3);
- * // swappedArray is [1, 4, 3, 2]
  */
 export function swapInArray(array, index1, index2) {
   const newArray = [...array];
@@ -27,11 +22,6 @@ export function swapInArray(array, index1, index2) {
  *
  * @param {Array} array - The array to sort.
  * @returns {Array} The sorted array.
- *
- * @example
- * const array = [1, 0, 3, 0, 2];
- * const sortedArray = sortZeros(array);
- * // sortedArray is [1, 3, 2, 0, 0]
  */
 export function sortZeros(array, direction = "left") {
   const zeros = array.filter((num) => num === 0);
@@ -49,11 +39,6 @@ export function sortZeros(array, direction = "left") {
  *
  * @param {Array} array - The array to modify.
  * @returns {Array} The modified array.
- *
- * @example
- * const array = [1, 1, 2, 3, 3, 3, 4];
- * const summedArray = sumAdjacentEqualValues(array);
- * // summedArray is [2, 2, 6, 4]
  */
 export function sumAdjacentEqualValues(array) {
   const newArray = [];
@@ -79,11 +64,6 @@ export function sumAdjacentEqualValues(array) {
  * @param {Array} array - The array to modify.
  * @param {number} length - The length to fill the array up to.
  * @returns {Array} The modified array.
- *
- * @example
- * const array = [1, 2, 0, 4];
- * const filledArray = fillWithZeros(array, 6);
- * // filledArray is [1, 2, 0, 4, 0, 0]
  */
 export function fillWithZeros(array, length) {
   const newArray = [...array];

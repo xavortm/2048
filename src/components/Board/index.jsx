@@ -16,11 +16,9 @@ const keyMap = {
 const Wrapper = styled.div`
   border: 1px solid var(--color-stroke);
   border-radius: 0.5rem;
-  padding: 0.5rem;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0.5rem;
   opacity: ${({ isDisabled }) => isDisabled ? 0.5 : 1};
+  position: relative;
+  height: calc(4.25rem * 4 + 0.875rem * 3);
 `;
 
 function Board({ isDisabled, onUpdateScore, onGameOver }) {
@@ -41,7 +39,10 @@ function Board({ isDisabled, onUpdateScore, onGameOver }) {
     }
 
     let [newBoard, moveSum] = shiftAndSumMatrix(board, keyMap[key]);
-    newBoard = replaceRandomZeroMatrix(newBoard); // Prepare next move state.
+
+    if (JSON.stringify(newBoard) !== JSON.stringify(board)) {
+      newBoard = replaceRandomZeroMatrix(newBoard); // Prepare next move state.
+    }
 
     setBoard(newBoard);
     onUpdateScore(moveSum);
@@ -62,7 +63,13 @@ function Board({ isDisabled, onUpdateScore, onGameOver }) {
   return (
     <Wrapper>
       {board.map((row, rowIndex) => (
-        row.map((cell, columnIndex) => <Square key={`${rowIndex}-${columnIndex}`} number={cell} />)
+        row.map((cell, columnIndex) =>
+          <Square
+            x={rowIndex * 10 + rowIndex * 8 + 2}
+            y={columnIndex * 10 + columnIndex * 8 + 2}
+            key={`${rowIndex}-${columnIndex}`}
+            number={cell}
+          />)
       ))}
     </Wrapper>
   )

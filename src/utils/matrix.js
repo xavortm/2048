@@ -46,7 +46,6 @@ export function rotateMatrix(matrix, direction = 'clockwise') {
   }
 
   return matrixCopy[0].map((val, index) => matrixCopy.map(row => row[row.length - 1 - index]));
-
 }
 
 /**

@@ -9,11 +9,17 @@ const Cell = styled.span`
   align-items: center;
   font-weight: bold;
   font-size: 1.5rem;
+  position: absolute;
+  width: 4.25rem;
+  height: 4.25rem;
+  left: ${({ x }) => x * 4.25 / 16}rem;
+  top: ${({ y }) => y * 4.25 / 16}rem;
+  transition: all 0.1s ease-in-out;
 `;
 
-function Square({ number }) {
+function Square({ number, x, y }) {
   return (
-    <Cell>
+    <Cell x={x} y={y}>
       {number === 0 ? '' : number}
     </Cell>
   );
