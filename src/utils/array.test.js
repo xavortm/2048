@@ -57,6 +57,10 @@ describe("sumAdjacentEqualValues", () => {
       [0, 0, 0, 2],
       [0, 0, 2],
     ],
+    [
+      [16, 4, 4, 4],
+      [16, 8, 4],
+    ],
   ])("sums adjacent equal values in an array", (array, expected) => {
     const [result, sum] = sumAdjacentEqualValues(array);
     expect(result).toEqual(expected);

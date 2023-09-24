@@ -40,7 +40,7 @@ function Board({ onUpdateScore, onGameOver }) {
    */
   const onUserInput = (event) => {
     const { key } = event;
-    // let randomGenerated = false;
+    let randomGenerated = false;
 
     // If the key is not an arrow key, ignore it.
     if (!Object.keys(keyMap).includes(key)) {
@@ -49,7 +49,7 @@ function Board({ onUpdateScore, onGameOver }) {
 
 
     let [newBoard, moveSum] = shiftAndSumMatrix(board, keyMap[key]);
-    // newBoard = replaceRandomZeroMatrix(newBoard); // Prepare next move state.
+    newBoard = replaceRandomZeroMatrix(newBoard); // Prepare next move state.
 
     setBoard(newBoard);
     onUpdateScore(moveSum);
@@ -66,9 +66,7 @@ function Board({ onUpdateScore, onGameOver }) {
   return (
     <Wrapper>
       {board.map((row, rowIndex) => (
-        row.map((cell, columnIndex) => {
-          return <span>{board[rowIndex][columnIndex]}</span>;
-        })
+        row.map((cell, columnIndex) => <Square key={`${rowIndex}-${columnIndex}`} number={cell} />)
       ))}
     </Wrapper>
   )

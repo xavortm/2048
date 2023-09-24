@@ -28,16 +28,16 @@ export function generateMatrix(size) {
  * @param {string} direction - 'clockwise' or 'counter-clockwise'
  */
 export function rotateMatrix(matrix, direction = 'clockwise') {
-  let matrixCopy = JSON.parse(JSON.stringify(matrixCopy));
-
-  if (matrixCopy === undefined) {
+  if (matrix === undefined) {
     throw new Error('Matrix is undefined.');
   }
 
   // Make sure the matrix is a square.
-  if (matrixCopy.length !== matrixCopy[0].length) {
+  if (matrix.length !== matrix[0].length) {
     throw new Error('Matrix must be square.');
   }
+
+  let matrixCopy = JSON.parse(JSON.stringify(matrix));
 
   if (direction === 'clockwise') {
     return matrixCopy[0].map((val, index) => matrixCopy.map(row => row[index]).reverse());
@@ -56,12 +56,12 @@ export function rotateMatrix(matrix, direction = 'clockwise') {
  * @returns {number[][]} The shifted matrix.
  */
 export function shiftAndSumMatrix(matrix, direction) {
-  let matrixCopy = JSON.parse(JSON.stringify(matrix));
-  let turnScore = 0;
-
-  if (matrixCopy.length !== matrixCopy[0].length) {
+  if (matrix.length !== matrix[0].length) {
     throw new Error('Matrix must be square.');
   }
+
+  let matrixCopy = JSON.parse(JSON.stringify(matrix));
+  let turnScore = 0;
 
   if (!['up', 'down', 'left', 'right'].includes(direction)) {
     throw new Error('Invalid direction.');
