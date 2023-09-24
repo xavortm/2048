@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import { noZerosInMatrix, shiftAndSumMatrix, generateMatrix, replaceRandomZeroMatrix } from '../../utils/matrix';
-import { replaceRandomZero } from '../../utils/array';
+import { shiftAndSumMatrix, generateMatrix, replaceRandomZeroMatrix, noValidMoves } from '../../utils/matrix';
 import Square from '../Square';
 
 const startingBoard = replaceRandomZeroMatrix(generateMatrix(4));
@@ -21,16 +20,11 @@ const Wrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 0.5rem;
+  opacity: ${({ isDisabled }) => isDisabled ? 0.5 : 1};
 `;
 
-function Board({ onUpdateScore, onGameOver }) {
+function Board({ isDisabled, onUpdateScore, onGameOver }) {
   const [board, setBoard] = useState(startingBoard);
-
-  if (noZerosInMatrix(board)) {
-    onGameOver();
-
-    window.removeEventListener('keydown', onUserInput);
-  }
 
   /**
    * Handles user input for changing the direction of the game.
@@ -40,19 +34,21 @@ function Board({ onUpdateScore, onGameOver }) {
    */
   const onUserInput = (event) => {
     const { key } = event;
-    let randomGenerated = false;
 
     // If the key is not an arrow key, ignore it.
-    if (!Object.keys(keyMap).includes(key)) {
+    if (isDisabled || !Object.keys(keyMap).includes(key)) {
       return;
     }
-
 
     let [newBoard, moveSum] = shiftAndSumMatrix(board, keyMap[key]);
     newBoard = replaceRandomZeroMatrix(newBoard); // Prepare next move state.
 
     setBoard(newBoard);
     onUpdateScore(moveSum);
+
+    if (noValidMoves(board)) {
+      onGameOver();
+    }
   }
 
   useEffect(() => {

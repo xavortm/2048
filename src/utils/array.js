@@ -1,4 +1,4 @@
-import { generateRandomNumber } from "./random";
+import { generateRandomPlayingNumber, randomInt } from "./random";
 
 /**
  * Swaps two elements in an array.
@@ -108,10 +108,10 @@ export function replaceRandomZero(array) {
   }
 
   while (true) {
-    const randomIndex = Math.floor(Math.random() * array.length);
+    const randomIndex = randomInt(0, array.length - 1);
 
     if (array[randomIndex] === 0) {
-      array[randomIndex] = generateRandomNumber();
+      array[randomIndex] = generateRandomPlayingNumber();
       break;
     }
   }

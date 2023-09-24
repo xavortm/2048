@@ -1,6 +1,6 @@
 import { describe, expect, it, test } from "vitest";
 
-import { generateMatrix, rotateMatrix, shiftAndSumMatrix } from "./matrix";
+import { generateMatrix, rotateMatrix, shiftAndSumMatrix, noValidMoves } from "./matrix";
 
 describe("generateMatrix", () => {
   test.each([
@@ -136,5 +136,43 @@ describe("shiftAndSumMatrix", () => {
 
     const [result, score] = shiftAndSumMatrix(matrix, "down");
     expect(result).toEqual(expected);
+  });
+});
+
+describe("noValidMoves", () => {
+  it("has a valid mode", () => {
+    expect(noValidMoves([
+      [2, 2, 0, 0],
+      [0, 2, 0, 0],
+      [2, 0, 0, 0],
+      [0, 16, 32, 0],
+    ])).toBe(false);
+  });
+
+  it("has a valid mode", () => {
+    expect(noValidMoves([
+      [2, 4, 2, 4],
+      [4, 4, 4, 2],
+      [2, 4, 2, 4],
+      [4, 2, 4, 2],
+    ])).toBe(false);
+  });
+
+  it("has a valid mode", () => {
+    expect(noValidMoves([
+      [2, 4, 2, 4],
+      [4, 0, 4, 2],
+      [2, 4, 2, 4],
+      [4, 2, 4, 2],
+    ])).toBe(false);
+  });
+
+  it("has no valid mode", () => {
+    expect(noValidMoves([
+      [2, 4, 2, 4],
+      [4, 2, 4, 2],
+      [2, 4, 2, 4],
+      [4, 2, 4, 2],
+    ])).toBe(true);
   });
 });

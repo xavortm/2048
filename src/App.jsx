@@ -10,6 +10,7 @@ import Board from './components/Board';
  * @returns {JSX.Element} The rendered App component.
  */
 function App() {
+  const [gameOver, setGameOver] = useState(false);
   const [score, setScore] = useState(0);
 
   const onUpdateScore = (newScore) => {
@@ -17,13 +18,13 @@ function App() {
   }
 
   const onGameOver = () => {
-    alert('Game over!');
+    setGameOver(true);
   }
 
   return (
     <Layout>
       <Header score={score} best={score} />
-      <Board onGameOver={onGameOver} onUpdateScore={onUpdateScore} />
+      <Board isDisabled={gameOver} onGameOver={onGameOver} onUpdateScore={onUpdateScore} />
     </Layout>
   )
 }

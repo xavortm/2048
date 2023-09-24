@@ -5,6 +5,8 @@ import {
   replaceRandomZero
 } from './array';
 
+import { randomInt } from './random';
+
 /**
  * Generates a square matrix of a given size, filled with zeros.
  *
@@ -51,7 +53,7 @@ export function rotateMatrix(matrix, direction = 'clockwise') {
  * Shifts the matrix in the given direction and sums
  * adjacent equal values.
  *
- * @param {number[][]} matrixCopy - The matrix to shift.
+ * @param {number[][]} matrix - The matrix to shift.
  * @param {string} direction - The direction to shift the matrix.
  * @returns {number[][]} The shifted matrix.
  */
@@ -75,12 +77,7 @@ export function shiftAndSumMatrix(matrix, direction) {
     matrixCopy = rotateMatrix(matrixCopy, 'counter-clockwise');
   }
 
-
   matrixCopy.forEach((row, rowIndex) => {
-    if (!row.includes(0)) {
-      return;
-    }
-
     matrixCopy[rowIndex] = sortZeros(matrixCopy[rowIndex]);
     const [sumArray, score] = sumAdjacentEqualValues(matrixCopy[rowIndex]);
     matrixCopy[rowIndex] = fillWithZeros(sumArray, matrixCopy.length);
@@ -103,22 +100,6 @@ export function shiftAndSumMatrix(matrix, direction) {
   return [matrixCopy, turnScore];
 };
 
-/**
- * Returns true if there are no zeros in the matrix, false otherwise.
- *
- * @param {Array<Array<number>>} matrix - The matrix to check.
- * @returns {boolean} True if there are no zeros in the matrix, false otherwise.
- */
-export function noZerosInMatrix(matrix) {
-  let matrixCopy = JSON.parse(JSON.stringify(matrix));
-
-  if (matrixCopy === undefined) {
-    throw new Error('Matrix is undefined.');
-  }
-
-  return matrixCopy.every(row => !row.includes(0));
-}
-
 export function replaceRandomZeroMatrix(matrix) {
   let matrixCopy = JSON.parse(JSON.stringify(matrix));
 
@@ -129,8 +110,23 @@ export function replaceRandomZeroMatrix(matrix) {
     }
   }
 
-  const randomRow = Math.floor(Math.random() * rowsWithZero.length);
+  const randomRow = rowsWithZero[randomInt(0, rowsWithZero.length - 1)];
   matrixCopy[randomRow] = replaceRandomZero(matrixCopy[randomRow]);
 
   return matrixCopy;
+}
+
+export function noValidMoves(matrix) {
+  for (let row = 0; row < matrix.length - 1; row++) {
+    for (let col = 0; col < matrix.length - 1; col++) {
+      if (matrix[row][col] === 0) {
+        return false;
+      }
+      if (matrix[row][col] === matrix[row + 1][col] || matrix[row][col] === matrix[row][col + 1]) {
+        return false;
+      }
+    }
+  }
+
+  return true;
 }
